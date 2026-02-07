@@ -14,15 +14,22 @@
 
     <div class="min-h-screen flex">
 
-        <div class="hidden lg:block w-1/2 relative">
-            <img src="https://images.unsplash.com/photo-1623366302587-bca29cbd83e7?q=80&w=1974&auto=format&fit=crop" 
-                 alt="Veterinaria" 
-                 class="absolute inset-0 w-full h-full object-cover">
-            <div class="absolute inset-0 bg-purple-900 bg-opacity-40 flex items-center justify-center">
-                <div class="text-white text-center px-12">
-                    <h2 class="text-4xl font-bold mb-4">Cuidamos lo que más amas</h2>
-                    <p class="text-lg text-purple-100">La plataforma SaaS líder para la gestión clínica moderna.</p>
+        <div class="hidden lg:flex w-1/2 relative items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-500 overflow-hidden">
+            
+            <img src="https://images.pexels.com/photos/4587971/pexels-photo-4587971.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                 alt="Mascota Feliz" 
+                 class="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay">
+            
+            <div class="relative z-10 text-center px-12">
+                <div class="mb-6 flex justify-center">
+                    <div class="bg-white/20 p-4 rounded-full backdrop-blur-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
                 </div>
+                <h2 class="text-4xl font-extrabold text-white mb-4 tracking-tight">Sistema Integral SaaS</h2>
+                <p class="text-purple-100 text-lg font-light">Gestiona pacientes, citas y dueños con la tecnología más avanzada del mercado.</p>
             </div>
         </div>
 
@@ -30,12 +37,12 @@
             <div class="max-w-md w-full">
                 
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Bienvenido de nuevo</h1>
-                    <p class="text-sm text-gray-500">Ingresa tus credenciales para acceder al panel.</p>
+                    <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Bienvenido</h1>
+                    <p class="text-sm text-gray-500">Ingresa a tu panel de control</p>
                 </div>
 
                 @if ($errors->any())
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r shadow-sm">
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -43,7 +50,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <p class="text-sm text-red-700">Credenciales incorrectas. Inténtalo de nuevo.</p>
+                                <p class="text-sm text-red-700 font-medium">Credenciales incorrectas.</p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +69,7 @@
                                 </svg>
                             </div>
                             <input type="email" name="email" id="email" required 
-                                class="focus:ring-purple-500 focus:border-purple-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg p-3 border" 
+                                class="focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg p-3 border transition" 
                                 placeholder="tu@correo.com">
                         </div>
                     </div>
@@ -76,27 +83,25 @@
                                 </svg>
                             </div>
                             <input type="password" name="password" id="password" required 
-                                class="focus:ring-purple-500 focus:border-purple-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg p-3 border" 
+                                class="focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg p-3 border transition" 
                                 placeholder="••••••••">
                         </div>
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150 ease-in-out">
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:-translate-y-0.5">
                             Entrar al Sistema
                         </button>
                     </div>
                 </form>
 
-                <div class="mt-8 pt-6 border-t border-gray-200">
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600">
-                            ¿Quieres abrir tu propia veterinaria? 
-                            <a href="{{ route('veterinarias.setup') }}" class="font-bold text-purple-600 hover:text-purple-500 hover:underline transition">
-                                Regístrate gratis aquí
-                            </a>
-                        </p>
-                    </div>
+                <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                    <p class="text-sm text-gray-500">
+                        ¿Quieres abrir tu propia veterinaria? 
+                        <a href="{{ route('veterinarias.setup') }}" class="font-bold text-pink-600 hover:text-purple-600 transition">
+                            Regístrate gratis aquí
+                        </a>
+                    </p>
                 </div>
 
             </div>
