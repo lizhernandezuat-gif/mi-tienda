@@ -109,6 +109,7 @@
                 </div>
             </div>
     </section>
+
    <section id="features" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center mb-16">
@@ -166,7 +167,98 @@
             </div>
         </div>
     </section>
+    <section id="demo" class="py-24 bg-purple-900 text-white overflow-hidden relative">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-pink-500 blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-purple-500 blur-3xl"></div>
+        </div>
 
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Míralo en acción</h2>
+            <p class="text-lg text-purple-200 mb-12 max-w-2xl mx-auto">
+                No necesitas ser un experto en tecnología. DogCat SaaS es tan intuitivo que tu equipo lo dominará en menos de 5 minutos.
+            </p>
+
+            <div class="relative rounded-2xl bg-gray-800 border border-gray-700 shadow-2xl aspect-video max-w-4xl mx-auto flex items-center justify-center group cursor-pointer overflow-hidden">
+                <img src="{{ asset('img/dashboard-demo.png') }}" alt="Demo Cover" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700">
+                
+                <div class="relative z-10 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-purple-600 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                
+                <div class="absolute bottom-4 left-0 w-full text-center">
+                    <p class="text-sm font-medium text-white/80">Haz clic para ver el tour (1:30 min)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="precios" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center mb-16">
+                <h2 class="text-base font-semibold leading-7 text-pink-600">Planes Flexibles</h2>
+                <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Un precio para cada etapa</p>
+                <p class="mt-6 text-lg leading-8 text-gray-600">Empieza gratis y crece con nosotros. Sin tarjetas de crédito requeridas para iniciar.</p>
+            </div>
+
+            <div class="grid max-w-lg grid-cols-1 gap-8 mx-auto lg:max-w-none lg:grid-cols-3">
+                
+                <div class="flex flex-col justify-between p-8 bg-white border border-gray-200 rounded-3xl hover:shadow-xl transition-shadow">
+                    <div>
+                        <h3 class="text-lg font-semibold leading-8 text-gray-900">Plan Cachorro</h3>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Ideal para veterinarios independientes recién egresados.</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <span class="text-4xl font-bold tracking-tight text-gray-900">$0</span>
+                            <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
+                        </p>
+                        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 50 Pacientes</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>1 Veterinario</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte por Email</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-purple-600 ring-1 ring-inset ring-purple-200 hover:ring-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 transition">Comenzar Gratis</a>
+                </div>
+
+                <div class="flex flex-col justify-between p-8 bg-white border-2 border-purple-600 rounded-3xl shadow-xl relative transform scale-105 z-10">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wide">Más Popular</div>
+                    <div>
+                        <h3 class="text-lg font-semibold leading-8 text-gray-900">Plan Clínica</h3>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Para clínicas en crecimiento con flujo constante.</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <span class="text-4xl font-bold tracking-tight text-gray-900">$29</span>
+                            <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
+                        </p>
+                        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Pacientes Ilimitados</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 3 Veterinarios</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Recordatorios por WhatsApp</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte Prioritario</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-white bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-500/30 transition">Probar 14 Días Gratis</a>
+                </div>
+
+                <div class="flex flex-col justify-between p-8 bg-white border border-gray-200 rounded-3xl hover:shadow-xl transition-shadow">
+                    <div>
+                        <h3 class="text-lg font-semibold leading-8 text-gray-900">Plan Hospital</h3>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Para cadenas de hospitales con múltiples sucursales.</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <span class="text-4xl font-bold tracking-tight text-gray-900">$99</span>
+                            <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
+                        </p>
+                        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Todo ilimitado</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>API personalizada</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Gerente de cuenta dedicado</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-gray-900 ring-1 ring-inset ring-gray-200 hover:ring-gray-300 transition">Contactar Ventas</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
     <footer class="bg-gray-900 py-12 text-center text-gray-400">
         <p>© 2026 DogCat SaaS. Creado con ❤️ para la clase de Desarrollo Web.</p>
     </footer>
