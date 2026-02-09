@@ -73,7 +73,7 @@
 
             <div class="flex justify-center gap-4">
                 <a href="{{ route('veterinarias.setup') }}" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1 transition-all duration-300 text-lg">
-                    🚀 Empezar Ahora Gratis
+                     Empezar Ahora Gratis
                 </a>
                 <a href="#demo" class="px-8 py-4 bg-white text-gray-700 font-bold rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 transition-all duration-300 text-lg flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">

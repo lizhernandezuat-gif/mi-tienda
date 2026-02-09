@@ -18,12 +18,12 @@
             </a>
 
             <div class="p-6 border border-gray-100 rounded-xl opacity-50 cursor-not-allowed">
-                <h3 class="text-xl font-bold text-gray-400">🥩 Productos</h3>
+                <h3 class="text-xl font-bold text-gray-400"> Productos</h3>
                 <p class="text-gray-400 text-sm mt-2">Próximamente...</p>
             </div>
 
             <div class="p-6 border border-gray-100 rounded-xl opacity-50 cursor-not-allowed">
-                <h3 class="text-xl font-bold text-gray-400">💉 Servicios</h3>
+                <h3 class="text-xl font-bold text-gray-400"> Servicios</h3>
                 <p class="text-gray-400 text-sm mt-2">Próximamente...</p>
             </div>
         </div>

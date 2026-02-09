@@ -33,10 +33,16 @@
             </div>
         </div>
 
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-            <div class="max-w-md w-full">
-                
-                <div class="text-center mb-10">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white relative">
+            
+            <a href="{{ route('home') }}" class="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-purple-600 transition-colors duration-200 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span class="text-sm font-medium">Volver al Inicio</span>
+            </a>
+
+            <div class="max-w-md w-full mt-12"> <div class="text-center mb-10">
                     <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Bienvenido</h1>
                     <p class="text-sm text-gray-500">Ingresa a tu panel de control</p>
                 </div>
