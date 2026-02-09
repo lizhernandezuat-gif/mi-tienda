@@ -6,7 +6,10 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // 1. Ruta Principal (Decide si mostrar Bienvenida o Registro)
-Route::get('/', [VeterinariaController::class, 'welcome'])->name('welcome');
+// RUTA PRINCIPAL (PLAN SOFT: LANDING PAGE)
+Route::get('/', function () {
+    return view('welcome'); // Muestra la página de venta
+})->name('home');
 
 // 2. Rutas para Configuración Inicial (Registro de la Veterinaria)
 Route::get('/setup', [VeterinariaController::class, 'setup'])->name('veterinarias.setup');
