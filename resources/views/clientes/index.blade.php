@@ -1,31 +1,28 @@
-
 @extends('layouts.app')
 
 @section('content')
 
-
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-2xl font-bold text-gray-800">Lista de Clientes</h2>
-        <p class="text-gray-600">Administra a tus pacientes y sus dueños.</p>
-    </div>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Lista de Clientes</h2>
+            <p class="text-gray-600">Administra a tus pacientes y sus dueños.</p>
+        </div>
 
-    <div class="flex items-center gap-4">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="text-red-500 hover:text-red-700 font-medium border border-red-200 hover:border-red-400 bg-white px-4 py-2 rounded-lg transition duration-150 ease-in-out">
-                Cerrar Sesión
-            </button>
-        </form>
+        <div class="flex items-center gap-4">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="text-red-500 hover:text-red-700 font-medium border border-red-200 hover:border-red-400 bg-white px-4 py-2 rounded-lg transition duration-150 ease-in-out">
+                    Cerrar Sesión
+                </button>
+            </form>
 
-        <a href="{{ route('clientes.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-150 ease-in-out flex items-center">
-            + Nuevo Cliente
-        </a>
+            <a href="{{ route('clientes.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-150 ease-in-out flex items-center">
+                + Nuevo Cliente
+            </a>
+        </div>
     </div>
-</div>
 
     <div class="mb-8">
         <form action="{{ route('clientes.index') }}" method="GET" class="relative">
@@ -73,7 +70,13 @@
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-bold text-gray-900">{{ $cliente->nombre }}</div>
+                                    <div class="text-sm font-bold text-gray-900">
+                                        @if(request('search'))
+                                            {!! preg_replace('/(' . preg_quote(request('search'), '/') . ')/i', '<span class="bg-yellow-200 px-1 rounded">$1</span>', $cliente->nombre) !!}
+                                        @else
+                                            {{ $cliente->nombre }}
+                                        @endif
+                                    </div>
                                     <div class="text-xs text-gray-500">{{ $cliente->email ?? 'Sin correo' }}</div>
                                 </div>
                             </div>
@@ -103,7 +106,11 @@
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-medium">
-                            {{ $cliente->telefono }}
+                            @if(request('search'))
+                                {!! preg_replace('/(' . preg_quote(request('search'), '/') . ')/i', '<span class="bg-yellow-200 px-1 rounded">$1</span>', $cliente->telefono) !!}
+                            @else
+                                {{ $cliente->telefono }}
+                            @endif
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -122,6 +129,7 @@
                         <td colspan="4" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center">
                                 <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                
                                 <p class="text-lg font-medium text-gray-500">
                                     @if(request('search'))
                                         No encontramos coincidencias para "{{ request('search') }}"
@@ -129,7 +137,15 @@
                                         No hay clientes registrados aún.
                                     @endif
                                 </p>
-                                <a href="{{ route('clientes.create') }}" class="text-purple-600 font-bold hover:underline mt-2">Crear nuevo cliente</a>
+
+                                @if(request('search'))
+                                    <a href="{{ route('clientes.create', [is_numeric(request('search')) ? 'telefono' : 'nombre' => request('search')]) }}" class="bg-purple-600 text-white font-bold hover:bg-purple-700 px-6 py-2 rounded-full mt-4 transition shadow-md">
+                                        + Registrar a "{{ request('search') }}"
+                                    </a>
+                                @else
+                                    <a href="{{ route('clientes.create') }}" class="text-purple-600 font-bold hover:underline mt-2">Crear nuevo cliente</a>
+                                @endif
+                                
                             </div>
                         </td>
                     </tr>
@@ -140,6 +156,7 @@
     </div>
     
     <div class="mt-6 mb-12">
-        {{ $clientes->withQueryString()->links() }} </div>
+        {{ $clientes->withQueryString()->links() }} 
+    </div>
 </div>
 @endsection

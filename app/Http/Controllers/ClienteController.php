@@ -13,20 +13,59 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        $busqueda = $request->input('search');
+        $busqueda = trim($request->input('search'));
+        $query = Cliente::with('mascotas');
 
-        $clientes = Cliente::query()
-            // 1. EL FILTRO DE SEGURIDAD (GAFAS)
-            ->where('veterinaria_id', Auth::user()->veterinaria_id)
+        if ($busqueda) {
+            // 1. Buscamos coincidencias
+            $query->where(function ($q) use ($busqueda) {
+                $q->where('nombre', 'LIKE', '%' . $busqueda . '%')
+                  ->orWhere('telefono', 'LIKE', '%' . $busqueda . '%')
+                  ->orWhereHas('mascotas', function ($queryMascota) use ($busqueda) {
+                      $queryMascota->where('nombre', 'LIKE', '%' . $busqueda . '%');
+                  });
+            });
+
+            // 2. Ordenamos para que los que empiezan con tu texto salgan primero
+            $query->orderByRaw("
+                CASE 
+                    WHEN nombre LIKE ? THEN 1 
+                    WHEN telefono LIKE ? THEN 2
+                    ELSE 3 
+                END ASC
+            ", ["{$busqueda}%", "{$busqueda}%"]);
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+
+        $clientes = $query->paginate(10);
+
+        // --- LA MAGIA MEJORADA (El Francotirador) ---
+        if ($busqueda) {
             
-            // 2. La lógica del buscador
-            ->when($busqueda, function ($query, $busqueda) {
-                return $query->where('nombre', 'like', "%{$busqueda}%")
-                             ->orWhere('email', 'like', "%{$busqueda}%");
-            })
-            ->paginate(10); // <--- ¡AQUÍ ESTÁ EL CAMBIO! (Antes decía get)
+            // Caso A: Solo hay 1 resultado en toda la base de datos (Ej. Teléfono único)
+            if ($clientes->total() == 1) {
+                return redirect()->route('clientes.show', $clientes->first()->id);
+            }
 
-        return view('clientes.index', compact('clientes'));
+            // Caso B: Hay varios, pero buscaremos si hay una COINCIDENCIA EXACTA.
+            // Ej: Buscaste "Ana". Encontró a "Ana", "Mariana" y "Ana Silvia".
+            if ($clientes->total() > 1) {
+                $coincidenciaExacta = $clientes->first(function ($cliente) use ($busqueda) {
+                    // Verificamos si el nombre o el teléfono es exactamente igual (sin importar mayúsculas)
+                    return strtolower($cliente->nombre) === strtolower($busqueda) || 
+                           $cliente->telefono === $busqueda;
+                });
+
+                // Si encontramos a la "Ana" exacta, vamos directo a ella.
+                if ($coincidenciaExacta) {
+                    return redirect()->route('clientes.show', $coincidenciaExacta->id);
+                }
+            }
+        }
+
+        // Si buscaste una mascota repetida o coincidencias parciales, mostramos la lista.
+        return view('clientes.index', compact('clientes', 'busqueda'));
     }
 
     public function create()
