@@ -24,6 +24,7 @@ class User extends Authenticatable
         'veterinaria_id',
         'user_id',
         'rol',
+        'configuracion', // <--- NUEVO: La "mochila" de ajustes dinámicos
     ];
 
     /**
@@ -46,6 +47,39 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'configuracion' => 'array', // <--- MAGIA: Convierte el JSON de la BD en un Array PHP usable
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relaciones (Fase 1: Lógica del Negocio)
+    |--------------------------------------------------------------------------
+    */
+
+    // Un Usuario (Cliente o Admin) puede tener muchas citas
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | El "Guardia" de Configuración (Propuesta C)
+    |--------------------------------------------------------------------------
+    | Esta función nos permite pedir un ajuste y, si la veterinaria no lo ha
+    | configurado, devuelve un valor por defecto para que el sistema no falle.
+    |
+    | Uso: $user->getConfig('max_mascotas', 3);
+    */
+    public function getConfig($clave, $valorPorDefecto = null)
+    {
+        // Si no hay configuración guardada, devolver el default
+        if (empty($this->configuracion)) {
+            return $valorPorDefecto;
+        }
+
+        // Si existe la clave específica (ej: 'max_mascotas'), la devolvemos
+        return $this->configuracion[$clave] ?? $valorPorDefecto;
     }
 }
