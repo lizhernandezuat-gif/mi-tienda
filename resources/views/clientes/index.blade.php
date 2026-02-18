@@ -25,26 +25,28 @@
     </div>
 
     <div class="mb-8">
-        <form action="{{ route('clientes.index') }}" method="GET" class="relative">
+        <div class="relative">
             <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg id="icon-search" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <svg id="spinner" class="hidden animate-spin h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </div>
-                <input type="text" name="search" value="{{ request('search') }}" 
-                    class="block w-full pl-10 pr-20 py-4 border border-gray-200 rounded-2xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:border-purple-500 focus:ring-purple-500 sm:text-lg shadow-sm transition" 
-                    placeholder=" Escribe un nombre o teléfono y presiona Enter..." autocomplete="off">
-                
-                <button type="submit" class="absolute inset-y-2 right-2 px-6 bg-purple-100 text-purple-700 font-bold rounded-xl hover:bg-purple-200 transition">
-                    Buscar
-                </button>
+
+                <input type="text" id="input-buscador" name="search" value="{{ request('search') }}" 
+                    class="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:border-purple-500 focus:ring-purple-500 sm:text-lg shadow-sm transition" 
+                    placeholder="Escribe para buscar automáticamente..." autocomplete="off">
             </div>
+
             @if(request('search'))
                 <div class="mt-2 flex justify-between items-center px-2">
                     <p class="text-sm text-gray-500">Mostrando resultados para: <span class="font-bold text-gray-900">"{{ request('search') }}"</span></p>
                     <a href="{{ route('clientes.index') }}" class="text-sm text-red-500 hover:text-red-700 font-bold hover:underline">Limpiar filtro ✕</a>
                 </div>
             @endif
-        </form>
+        </div>
     </div>
 
     <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
@@ -61,7 +63,6 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($clientes as $cliente)
                     <tr class="hover:bg-purple-50 transition duration-150 group">
-                        
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
@@ -114,7 +115,7 @@
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <div class="flex justify-end gap-2 opacity-100 group-hover:opacity-100 transition-opacity duration-200">
                                 <a href="{{ route('clientes.show', $cliente->id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-md font-bold">Ver</a>
                                 <a href="{{ route('clientes.edit', $cliente->id) }}" class="text-yellow-600 hover:text-yellow-900 bg-yellow-50 px-3 py-1 rounded-md font-bold">Editar</a>
                                 <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Eliminar cliente?');">
@@ -129,7 +130,6 @@
                         <td colspan="4" class="px-6 py-12 text-center">
                             <div class="flex flex-col items-center justify-center">
                                 <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                
                                 <p class="text-lg font-medium text-gray-500">
                                     @if(request('search'))
                                         No encontramos coincidencias para "{{ request('search') }}"
@@ -137,15 +137,6 @@
                                         No hay clientes registrados aún.
                                     @endif
                                 </p>
-
-                                @if(request('search'))
-                                    <a href="{{ route('clientes.create', [is_numeric(request('search')) ? 'telefono' : 'nombre' => request('search')]) }}" class="bg-purple-600 text-white font-bold hover:bg-purple-700 px-6 py-2 rounded-full mt-4 transition shadow-md">
-                                        + Registrar a "{{ request('search') }}"
-                                    </a>
-                                @else
-                                    <a href="{{ route('clientes.create') }}" class="text-purple-600 font-bold hover:underline mt-2">Crear nuevo cliente</a>
-                                @endif
-                                
                             </div>
                         </td>
                     </tr>
@@ -156,7 +147,36 @@
     </div>
     
     <div class="mt-6 mb-12">
-        {{ $clientes->withQueryString()->links() }} 
+        {{ $clientes->appends(['search' => request('search')])->links() }} 
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let timeout = null;
+        const input = document.getElementById('input-buscador');
+        const spinner = document.getElementById('spinner');
+        const icon = document.getElementById('icon-search');
+
+        input.addEventListener('input', function() {
+            clearTimeout(timeout);
+            
+            // Mostrar spinner y ocultar icono de lupa
+            icon.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            timeout = setTimeout(() => {
+                const query = input.value;
+                // Redirigir a la URL con el parámetro de búsqueda
+                window.location.href = "{{ route('clientes.index') }}?search=" + encodeURIComponent(query);
+            }, 600); // 600ms de espera tras dejar de escribir
+        });
+
+        // Autofocus al final del texto si hay una búsqueda activa
+        if (input.value.length > 0) {
+            input.focus();
+            input.setSelectionRange(input.value.length, input.value.length);
+        }
+    });
+</script>
 @endsection
