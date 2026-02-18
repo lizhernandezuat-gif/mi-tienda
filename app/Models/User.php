@@ -24,7 +24,7 @@ class User extends Authenticatable
         'veterinaria_id',
         'user_id',
         'rol',
-        'configuracion', // <--- NUEVO: La "mochila" de ajustes dinámicos
+        'configuracion',
     ];
 
     /**
@@ -47,17 +47,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'configuracion' => 'array', // <--- MAGIA: Convierte el JSON de la BD en un Array PHP usable
+            'configuracion' => 'array',
         ];
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Relaciones (Fase 1: Lógica del Negocio)
+    | Relaciones
     |--------------------------------------------------------------------------
     */
 
-    // Un Usuario (Cliente o Admin) puede tener muchas citas
+    /**
+     * Un Usuario pertenece a UNA Veterinaria
+     */
+    public function veterinaria()
+    {
+        return $this->belongsTo(Veterinaria::class);
+    }
+
+    /**
+     * Un Usuario puede tener muchas citas
+     */
     public function citas()
     {
         return $this->hasMany(Cita::class);
@@ -65,21 +75,27 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | El "Guardia" de Configuración (Propuesta C)
+    | Métodos Helper
     |--------------------------------------------------------------------------
-    | Esta función nos permite pedir un ajuste y, si la veterinaria no lo ha
-    | configurado, devuelve un valor por defecto para que el sistema no falle.
-    |
-    | Uso: $user->getConfig('max_mascotas', 3);
     */
+
+    /**
+     * Obtener configuración con valor por defecto
+     */
     public function getConfig($clave, $valorPorDefecto = null)
     {
-        // Si no hay configuración guardada, devolver el default
         if (empty($this->configuracion)) {
             return $valorPorDefecto;
         }
 
-        // Si existe la clave específica (ej: 'max_mascotas'), la devolvemos
         return $this->configuracion[$clave] ?? $valorPorDefecto;
+    }
+
+    /**
+     * Verificar si el usuario pertenece a una veterinaria
+     */
+    public function tieneVeterinaria()
+    {
+        return !is_null($this->veterinaria_id);
     }
 }

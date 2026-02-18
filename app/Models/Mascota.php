@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\VeterinariaScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,28 +10,76 @@ class Mascota extends Model
 {
     use HasFactory;
 
-    // AQUI ES DONDE AUTORIZAMOS LOS CAMPOS
+    protected $table = 'mascotas';
+
     protected $fillable = [
         'cliente_id',
+        'veterinaria_id',
         'nombre',
         'especie',
         'raza',
         'color',
-        'peso',
         'edad',
-        'notas_medicas',
-        'foto',   // <--- ¡NUEVO! Para guardar la ruta de la imagen
-        'estado', // <--- ¡NUEVO! Para guardar si está Sano/Hospitalizado
-        'veterinaria_id',
-        'user_id',
-
+        'peso',
+        'notas',
     ];
 
-    // Relación con Cliente
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Global Scopes (Seguridad Automática)
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Aplicar Global Scope al crear el modelo
+     * Filtra AUTOMÁTICAMENTE todas las consultas por veterinaria_id
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new VeterinariaScope());
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relaciones
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Una Mascota pertenece a UN Cliente
+     */
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);
     }
+
+    /**
+     * Una Mascota pertenece a UNA Veterinaria
+     */
+    public function veterinaria()
+    {
+        return $this->belongsTo(Veterinaria::class);
+    }
+
+    /**
+     * Una Mascota puede tener MUCHAS Vacunas
+     */
     public function vacunas()
-     { return $this->hasMany(Vacuna::class); }
+    {
+        return $this->hasMany(Vacuna::class);
+    }
+
+    /**
+     * Una Mascota puede estar en MUCHAS Citas (Relación Muchos a Muchos)
+     */
+    public function citas()
+    {
+        return $this->belongsToMany(Cita::class, 'cita_mascota');
+    }
 }

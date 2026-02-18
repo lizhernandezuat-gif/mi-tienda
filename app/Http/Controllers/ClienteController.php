@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <--- OBLIGATORIO para saber quién eres
+use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
 {
     /**
-     * Muestra la lista de clientes (SOLO los de mi veterinaria)
+     * Display a listing of the resource (CON GLOBAL SCOPE)
+     * 
+     * ✅ NOTA: El Global Scope filtra automáticamente por veterinaria_id
+     * NO necesitamos escribir ->where('veterinaria_id', Auth::user()->veterinaria_id)
      */
     public function index(Request $request)
     {
         $busqueda = trim($request->input('search'));
+        // ✅ Global Scope se aplica automáticamente aquí
         $query = Cliente::with('mascotas');
 
         if ($busqueda) {
@@ -43,94 +47,109 @@ class ClienteController extends Controller
         // --- LA MAGIA MEJORADA (El Francotirador) ---
         if ($busqueda) {
             
-            // Caso A: Solo hay 1 resultado en toda la base de datos (Ej. Teléfono único)
+            // Caso A: Solo hay 1 resultado
             if ($clientes->total() == 1) {
                 return redirect()->route('clientes.show', $clientes->first()->id);
             }
 
-            // Caso B: Hay varios, pero buscaremos si hay una COINCIDENCIA EXACTA.
-            // Ej: Buscaste "Ana". Encontró a "Ana", "Mariana" y "Ana Silvia".
+            // Caso B: Hay varios, pero buscaremos si hay una COINCIDENCIA EXACTA
             if ($clientes->total() > 1) {
                 $coincidenciaExacta = $clientes->first(function ($cliente) use ($busqueda) {
-                    // Verificamos si el nombre o el teléfono es exactamente igual (sin importar mayúsculas)
                     return strtolower($cliente->nombre) === strtolower($busqueda) || 
                            $cliente->telefono === $busqueda;
                 });
 
-                // Si encontramos a la "Ana" exacta, vamos directo a ella.
                 if ($coincidenciaExacta) {
                     return redirect()->route('clientes.show', $coincidenciaExacta->id);
                 }
             }
         }
 
-        // Si buscaste una mascota repetida o coincidencias parciales, mostramos la lista.
         return view('clientes.index', compact('clientes', 'busqueda'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('clientes.create');
     }
 
     /**
-     * Guarda un nuevo cliente vinculado a mi empresa
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email', // Quitamos 'unique' simple para permitir repetir email en DIFERENTES veterinarias
-            'telefono' => 'required|string',
+            'email' => 'nullable|email|max:255',
+            'telefono' => 'required|string|max:20',
+            'direccion' => 'nullable|string|max:255',
+            'ciudad' => 'nullable|string|max:100',
+            'notas' => 'nullable|string',
         ]);
 
-        // Crear el cliente inyectando el ID de la empresa
-        Cliente::create([
-            'nombre' => $request->nombre,
-            'email' => $request->email,
-            'telefono' => $request->telefono,
-            'mascota' => 'Sin asignar', // Valor por defecto para cumplir con tu base de datos
-            'veterinaria_id' => Auth::user()->veterinaria_id, // <--- LA CLAVE
-        ]);
+        // ✅ Asignar automáticamente la veterinaria del usuario autenticado
+        $validated['veterinaria_id'] = Auth::user()->veterinaria_id;
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente registrado correctamente.');
+        Cliente::create($validated);
+
+        return redirect()->route('clientes.index')->with('success', '✅ Cliente creado exitosamente');
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Cliente $cliente)
     {
-        // Seguridad: Solo ver si es mio
-        $cliente = Cliente::where('veterinaria_id', Auth::user()->veterinaria_id)->findOrFail($id);
+        // ✅ El Policy verifica que pertenezca a su veterinaria
+        $this->authorize('view', $cliente);
+        $cliente->load('mascotas');
         return view('clientes.show', compact('cliente'));
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Cliente $cliente)
     {
-        // Seguridad: Solo editar si es mio
-        $cliente = Cliente::where('veterinaria_id', Auth::user()->veterinaria_id)->findOrFail($id);
+        // ✅ El Policy verifica que pertenezca a su veterinaria
+        $this->authorize('update', $cliente);
         return view('clientes.edit', compact('cliente'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Cliente $cliente)
     {
-        // Seguridad: Buscar primero con el filtro
-        $cliente = Cliente::where('veterinaria_id', Auth::user()->veterinaria_id)->findOrFail($id);
+        // ✅ El Policy verifica que pertenezca a su veterinaria
+        $this->authorize('update', $cliente);
 
-        $request->validate([
-            'nombre' => 'required',
-            'email' => 'required|email',
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'telefono' => 'required|string|max:20',
+            'direccion' => 'nullable|string|max:255',
+            'ciudad' => 'nullable|string|max:100',
+            'notas' => 'nullable|string',
         ]);
 
-        $cliente->update($request->all());
+        $cliente->update($validated);
 
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.show', $cliente)->with('success', '✅ Cliente actualizado');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Cliente $cliente)
     {
-        // Seguridad: Solo borrar si es mio
-        $cliente = Cliente::where('veterinaria_id', Auth::user()->veterinaria_id)->findOrFail($id);
-        
+        // ✅ El Policy verifica que pertenezca a su veterinaria
+        $this->authorize('delete', $cliente);
         $cliente->delete();
-        return redirect()->route('clientes.index');
+
+        return redirect()->route('clientes.index')->with('success', '🗑️ Cliente eliminado');
     }
 }

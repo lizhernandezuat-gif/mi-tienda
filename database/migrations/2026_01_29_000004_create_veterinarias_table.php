@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('rfc')->nullable();    // Agregué esto por si acaso
             $table->string('horario')->nullable(); // Agregué esto por si acaso
             $table->boolean('activo')->default(true);
+            $table->string('ciudad')->nullable();
             $table->timestamps();
         });
         

@@ -3,36 +3,48 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Veterinaria;
 use App\Models\Cliente;
 use App\Models\Mascota;
+use Faker\Factory as Faker;
 
 class CargaMasivaSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
-        // 1. Buscamos tu veterinaria "DogCat" (o la primera que encuentre)
-        $miVeterinaria = Veterinaria::first();
+        $faker = Faker::create();
+        
+        // Tu ID de veterinaria (Usuario principal)
+        $vetId = 1; 
 
-        if (!$miVeterinaria) {
-            $this->command->error('¡No encontré ninguna veterinaria! Crea una primero.');
-            return;
-        }
+        $this->command->info("Iniciando carga masiva...");
 
-        $this->command->info("Iniciando carga masiva para: " . $miVeterinaria->nombre_veterinaria);
-
-        // 2. Aquí ocurre la MAGIA:
-        // Crea 1000 Clientes...
-        // Y por cada uno, crea entre 3 y 10 Mascotas (has Mascota...)
-        Cliente::factory()
-            ->count(1000) 
-            ->has(
-                Mascota::factory()->count(rand(3, 10))
-            )
-            ->create([
-                'veterinaria_id' => $miVeterinaria->id // Los vinculamos a TU clínica
+        for ($i = 0; $i < 1000; $i++) {
+            
+            $cliente = Cliente::create([
+                'veterinaria_id' => $vetId,
+                'nombre' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'telefono' => $faker->phoneNumber,
+                // ¡AQUÍ YA NO HAY DIRECCIÓN! SE ELIMINÓ POR COMPLETO.
             ]);
 
-        $this->command->info("¡Éxito! Se crearon 1,000 clientes y miles de mascotas.");
+            // Crear entre 3 y 5 mascotas por cliente
+            $numMascotas = rand(3, 5);
+
+            for ($j = 0; $j < $numMascotas; $j++) {
+                Mascota::create([
+                    'veterinaria_id' => $vetId,
+                    'cliente_id' => $cliente->id,
+                    'nombre' => $faker->firstName,
+                    'especie' => $faker->randomElement(['Perro', 'Gato', 'Hamster', 'Ave']),
+                    'raza' => $faker->word,
+                    'edad' => rand(1, 15),
+                    'peso' => $faker->randomFloat(1, 1, 40) . ' kg',
+                    'foto' => null,
+                ]);
+            }
+        }
+
+        $this->command->info("✅ ¡ÉXITO! 1000 clientes creados correctamente.");
     }
 }

@@ -1,79 +1,80 @@
 <?php
+
 namespace App\Http\Controllers;
 
-// --- ZONA DE IMPORTACIONES (Las Herramientas) ---
+// --- ZONA DE IMPORTACIONES ---
 use App\Models\Veterinaria;
-use App\Models\User;                 // <--- Para crear usuarios
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; // <--- Para encriptar contraseñas (Arregla tu error actual)
-use Illuminate\Support\Facades\Auth; // <--- Para hacer autologin
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth; // <--- VITAL para saber quién está conectado
 
 class VeterinariaController extends Controller
 {
-    // Esta función decide a dónde vas cuando entras a la app
+    // 1. Pantalla de Bienvenida / Redirección Inteligente
     public function welcome()
     {
-        $veterinaria = Veterinaria::first();
-
-        if ($veterinaria) {
-            // CASO 1: Ya existe veterinaria -> ¡Vamos directo a los clientes!
-            // (Simulando entrar al feed de una red social)
-            return redirect()->route('clientes.index');
-        } else {
-            // CASO 2: No existe -> Te mando a configurar (Setup)
-            return redirect()->route('veterinarias.setup');
+        // Si el usuario YA está logueado...
+        if (Auth::check()) {
+            // ... y tiene una veterinaria asignada, lo mandamos a su panel
+            if (Auth::user()->veterinaria) {
+                return redirect()->route('clientes.index');
+            }
         }
+
+        // Si no, mostramos la página de bienvenida (login/registro)
+        return view('welcome'); 
     }
 
-    // Muestra el formulario de configuración
-   public function setup()
+    // 2. Muestra el formulario de configuración inicial (Solo si vas a registrar vets manualmente)
+    public function setup()
     {
         return view('veterinarias.setup');
     }
 
-    // Guarda la Veterinaria Y el Usuario al mismo tiempo
+    // 3. Guarda la Veterinaria Y el Usuario (Registro)
     public function store(Request $request)
     {
-        // 1. Validar
+        // Validar
         $request->validate([
-            'nombre_veterinaria' => 'required',
-            'direccion' => 'required',
-            'telefono' => 'required',
-            'name' => 'required',
+            'nombre_veterinaria' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'required|string|max:50',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
 
-        // 2. Crear la Veterinaria
+        // Crear la Veterinaria
         $veterinaria = Veterinaria::create([
             'nombre' => $request->nombre_veterinaria,
             'direccion' => $request->direccion,
             'telefono' => $request->telefono,
+            'ciudad' => $request->ciudad ?? 'Sin definir', // Agregamos ciudad por si acaso
         ]);
 
-        // 3. Crear el Usuario Dueño vinculado a esa veterinaria
+        // Crear el Usuario Dueño vinculado
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rol' => 'owner',
+            'rol' => 'owner', // Opcional si usas roles
             'veterinaria_id' => $veterinaria->id, // ¡Aquí está la magia!
         ]);
 
-        // 4. Autologin (Entrar directo)
+        // Autologin
         Auth::login($user);
 
-        // 5. Redirigir a clientes
-        return redirect('/clientes');
+        return redirect()->route('clientes.index');
     }
 
-
-    // Muestra el perfil (Tu círculo MT)
+    // 4. Muestra la configuración (PERFIL) de TU veterinaria
     public function show()
     {
-        $veterinaria = Veterinaria::first();
+        // CORREGIDO: Usamos Auth para traer SOLO la tuya
+        $veterinaria = Auth::user()->veterinaria;
 
-        // Protección extra: Si intenta ver perfil y no existe, va al setup
+        // Si por alguna razón el usuario no tiene veterinaria, lo mandamos a crear una
         if (!$veterinaria) {
             return redirect()->route('veterinarias.setup');
         }
@@ -81,36 +82,37 @@ class VeterinariaController extends Controller
         return view('veterinarias.show', compact('veterinaria'));
     }
 
-    // MOSTRAR FORMULARIO DE EDICIÓN
+    // 5. Muestra formulario de EDICIÓN de TU veterinaria
     public function edit()
     {
-        $veterinaria = Veterinaria::firstOrFail();
+        // CORREGIDO: Solo puedes editar la tuya
+        $veterinaria = Auth::user()->veterinaria;
         return view('veterinarias.edit', compact('veterinaria'));
     }
 
-    // GUARDAR CAMBIOS
+    // 6. GUARDAR CAMBIOS (El arreglo del "Efecto Espejo")
     public function update(Request $request)
     {
-        $veterinaria = Veterinaria::firstOrFail();
+        // CORREGIDO: Buscamos la veterinaria del usuario conectado, NO la primera de la BD
+        $veterinaria = Auth::user()->veterinaria;
 
-        // Validamos igual que en el Setup
+        // Validamos
         $datos = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'telefono' => 'required|string|max:50',
+            'nombre'    => 'required|string|max:255',
+            'telefono'  => 'required|string|max:50',
             'direccion' => 'required|string|max:255',
-            'slogan' => 'nullable|string|max:255',
-            'rfc' => 'nullable|string|max:20',
-            'horario' => 'nullable|string|max:100',
+            'slogan'    => 'nullable|string|max:255',
+            'rfc'       => 'nullable|string|max:20',
+            'horario'   => 'nullable|string|max:100',
+            'ciudad'    => 'nullable|string|max:100', // Agregamos ciudad
         ], [
             'nombre.required' => 'El nombre de la veterinaria es obligatorio.',
-            'telefono.required' => 'El teléfono es necesario.',
-            'direccion.required' => 'La dirección es obligatoria.'
         ]);
 
-        // Actualizamos
+        // Actualizamos SOLO la veterinaria del usuario
         $veterinaria->update($datos);
 
         // Regresamos al perfil con éxito
-        return redirect()->route('veterinarias.show');
+        return back()->with('success', 'Información actualizada correctamente');
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
         // RELACIÓN: Esta línea conecta la mascota con el cliente (Dueño)
         // 'onDelete cascade' significa que si borras al dueño, se borran sus mascotas automáticamente.
         $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
-        
+        $table->foreignId('veterinaria_id')->constrained('veterinarias')->onDelete('cascade');
         $table->string('nombre');
         $table->string('especie'); // Perro, Gato, etc.
         $table->string('raza')->nullable();
