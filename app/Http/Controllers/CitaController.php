@@ -85,11 +85,14 @@ class CitaController extends Controller
      * Formulario de creación
      */
     public function create()
-    {
-        $user = Auth::user();
-        $max_mascotas = $user->getConfig('max_mascotas', 3);
-        return view('citas.create', compact('max_mascotas'));
-    }
+{
+    $user = Auth::user();
+    // 💡 Traemos la configuración real para que la vista la conozca
+    $config = $user->veterinaria->settings;
+    $max_mascotas = $config->max_mascotas_por_cita ?? 3;
+
+    return view('citas.create', compact('max_mascotas'));
+}
 
     /**
      * Guarda la cita con BLOQUEO DE 30 MINUTOS
@@ -97,9 +100,12 @@ class CitaController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $max_mascotas = $user->getConfig('max_mascotas', 3);
-        $duracion_minutos = 30;
+          // 1. Traemos la configuración de la base de datos para esta veterinaria
+        $config = $user->veterinaria->settings; 
 
+         // 2. Usamos el valor de la BD o un valor por defecto si la tabla está vacía
+        $max_mascotas = $config->max_mascotas_por_cita ?? 3;
+        $duracion_minutos = $config->duracion_cita_minutos ?? 30;
         $validated = $request->validate([
             'cliente_id' => 'required|integer|exists:clientes,id',
             'mascotas' => 'required|array|min:1|max:' . $max_mascotas,
@@ -256,17 +262,28 @@ class CitaController extends Controller
     // --- MÉTODOS AJAX ---
 
     public function buscarClientes(Request $request)
-    {
-        $busqueda = trim($request->input('q', ''));
-        if (strlen($busqueda) < 2) return response()->json([]);
+{
+    $busqueda = trim($request->input('q', ''));
+    
+    // Si la búsqueda es muy corta, no hacemos nada para no saturar el servidor
+    if (strlen($busqueda) < 2) return response()->json([]);
 
-        $user = Auth::user();
-        $clientes = Cliente::where('veterinaria_id', $user->veterinaria_id)
-            ->where('nombre', 'LIKE', "%{$busqueda}%")
-            ->limit(5)->get();
+    $user = Auth::user();
 
-        return response()->json($clientes);
-    }
+    $clientes = Cliente::where('veterinaria_id', $user->veterinaria_id)
+        // 🐾 SOLUCIÓN AL "UNDEFINED": Esto crea el campo 'mascotas_count' automáticamente
+        ->withCount('mascotas') 
+        // 🔍 BÚSQUEDA MEJORADA: Busca por nombre O por teléfono
+        ->where(function($q) use ($busqueda) {
+            $q->where('nombre', 'LIKE', "%{$busqueda}%")
+              ->orWhere('telefono', 'LIKE', "%{$busqueda}%");
+        })
+        // 📊 MÁS RESULTADOS: Subimos de 5 a 10 para que no se "pierdan" clientes
+        ->limit(10)
+        ->get();
+
+    return response()->json($clientes);
+}
 
     public function mascotasDelCliente($clienteId)
     {

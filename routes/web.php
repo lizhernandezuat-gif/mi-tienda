@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +13,7 @@ use App\Http\Controllers\MascotaController;
 use App\Http\Controllers\VacunaController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,8 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::get('/setup', [VeterinariaController::class, 'setup'])->name('veterinarias.setup');
 Route::post('/setup', [VeterinariaController::class, 'store'])->name('veterinarias.store');
 
-
+Route::get('/configuracion', [SettingsController::class, 'index'])->name('settings.index');
+Route::put('/configuracion', [SettingsController::class, 'update'])->name('settings.update');
 /*
 |--------------------------------------------------------------------------
 | RUTAS PROTEGIDAS (Solo usuarios logueados con veterinaria validada)

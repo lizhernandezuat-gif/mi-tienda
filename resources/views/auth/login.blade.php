@@ -14,7 +14,7 @@
 
     <div class="min-h-screen flex">
 
-        <div class="hidden lg:flex w-1/2 relative items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-500 overflow-hidden">
+        <div class="hidden lg:flex w-1/2 relative items-center justify-center bg-gradient-to-br from-purple-700 via-custom-primary to-pink-500 overflow-hidden">
             
             <img src="https://images.pexels.com/photos/4587971/pexels-photo-4587971.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
                  alt="Mascota Feliz" 
@@ -35,7 +35,7 @@
 
         <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white relative">
             
-            <a href="{{ route('home') }}" class="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-purple-600 transition-colors duration-200 group">
+            <a href="{{ route('home') }}" class="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-custom-primary transition-colors duration-200 group">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -95,7 +95,7 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:-translate-y-0.5">
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-gradient-to-r from-custom-primary to-pink-500 hover:from-purple-700 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:-translate-y-0.5">
                             Entrar al Sistema
                         </button>
                     </div>
@@ -104,7 +104,7 @@
                 <div class="mt-8 pt-6 border-t border-gray-100 text-center">
                     <p class="text-sm text-gray-500">
                         ¿Quieres abrir tu propia veterinaria? 
-                        <a href="{{ route('veterinarias.setup') }}" class="font-bold text-pink-600 hover:text-purple-600 transition">
+                        <a href="{{ route('veterinarias.setup') }}" class="font-bold text-pink-600 hover:text-custom-primary transition">
                             Regístrate gratis aquí
                         </a>
                     </p>

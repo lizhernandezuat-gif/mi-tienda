@@ -12,7 +12,7 @@
             <p class="text-gray-600">Gestión de pacientes y agenda.</p>
         </div>
         
-        <a href="{{ route('citas.create') }}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition duration-150 ease-in-out flex items-center gap-2 transform hover:-translate-y-0.5">
+        <a href="{{ route('citas.create') }}" class="bg-custom-primary hover:brightness-110 text-white font-bold py-2 px-6 rounded-full shadow-lg transition duration-150 ease-in-out flex items-center gap-2 transform hover:-translate-y-0.5">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
             </svg>
@@ -62,11 +62,11 @@
         
         <div class="flex space-x-1 rounded-xl bg-gray-200 p-1 w-full md:w-auto">
             <a href="{{ route('citas.index') }}" 
-               class="flex-1 md:flex-none rounded-lg py-2.5 px-6 text-sm font-medium leading-5 text-center transition {{ !request('ver') ? 'bg-white text-purple-700 shadow' : 'text-gray-600 hover:bg-white/[0.12] hover:text-purple-600' }}">
+               class="flex-1 md:flex-none rounded-lg py-2.5 px-6 text-sm font-medium leading-5 text-center transition {{ !request('ver') ? 'bg-white text-custom-primary shadow' : 'text-gray-600 hover:bg-white/[0.12] hover:text-custom-primary' }}">
                 📅 Próximas
             </a>
             <a href="{{ route('citas.index', ['ver' => 'historial']) }}" 
-               class="flex-1 md:flex-none rounded-lg py-2.5 px-6 text-sm font-medium leading-5 text-center transition {{ request('ver') == 'historial' ? 'bg-white text-purple-700 shadow' : 'text-gray-600 hover:bg-white/[0.12] hover:text-purple-600' }}">
+               class="flex-1 md:flex-none rounded-lg py-2.5 px-6 text-sm font-medium leading-5 text-center transition {{ request('ver') == 'historial' ? 'bg-white text-custom-primary shadow' : 'text-gray-600 hover:bg-white/[0.12] hover:text-custom-primary' }}">
                 📜 Historial
             </a>
         </div>
@@ -84,7 +84,7 @@
             <input type="text" 
                    name="search" 
                    value="{{ request('search') }}"
-                   class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 sm:text-sm transition" 
+                   class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-custom-primary focus:ring-1 focus:ring-custom-primary/30 sm:text-sm transition" 
                    placeholder="Buscar cliente, mascota o motivo...">
             
             @if(request('search'))
@@ -122,7 +122,7 @@
                         <span class="text-xs uppercase font-bold text-gray-500">{{ $cita->fecha_hora_inicio->format('M d') }}</span>
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-gray-900 group-hover:text-purple-600 transition">
+                        <h3 class="font-bold text-lg text-gray-900 group-hover:text-custom-primary transition">
     {{ $cita->motivo }}
     
     @if($cita->estado != 'completada' && $cita->estado != 'cancelada' && 
@@ -153,7 +153,7 @@
                         <span class="text-gray-900 font-bold">{{ $cita->cliente->nombre }}</span>
                         <div class="flex flex-wrap gap-1 mt-1">
                             @foreach($cita->mascotas as $mascota)
-                                <span class="bg-purple-50 text-purple-700 text-[11px] px-2 py-1 rounded-md border border-purple-100 font-medium flex items-center gap-1">
+                                <span class="bg-custom-light text-custom-primary text-[11px] px-2 py-1 rounded-md border border-purple-100 font-medium flex items-center gap-1">
                                     {{ $mascota->especie == 'Perro' ? '🐶' : ($mascota->especie == 'Gato' ? '🐱' : '🐾') }}
                                     {{ $mascota->nombre }}
                                 </span>
@@ -170,7 +170,7 @@
                         <button onclick="mostrarModalCopia(this)" data-mensaje="{{ $cita->mensaje_whatsapp }}" class="flex items-center gap-2 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-xl font-bold transition duration-200 text-sm border border-green-100" title="Copiar"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg></button>
                     @endif
 
-                    <a href="{{ route('citas.show', $cita->id) }}" class="p-2 text-gray-400 hover:text-purple-600 transition bg-white rounded-lg hover:bg-purple-50" title="Ver Detalles"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></a>
+                    <a href="{{ route('citas.show', $cita->id) }}" class="p-2 text-gray-400 hover:text-custom-primary transition bg-white rounded-lg hover:bg-custom-light" title="Ver Detalles"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></a>
 
                     <a href="{{ route('citas.edit', $cita->id) }}" class="p-2 text-gray-400 hover:text-blue-600 transition bg-white rounded-lg hover:bg-blue-50" title="Editar"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></a>
 
@@ -199,7 +199,7 @@
                     @elseif($cita->estado == 'cancelada')
                         <form action="{{ route('citas.update', $cita->id) }}" method="POST" class="inline">
                             @csrf @method('PUT') <input type="hidden" name="estado" value="pendiente">
-                            <button type="button" onclick="confirmarAccion(this, '¿Reactivar Cita?')" class="p-2 text-indigo-400 hover:text-indigo-600 transition bg-indigo-50 rounded-lg hover:bg-indigo-100" title="Reactivar"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg></button>
+                            <button type="button" onclick="confirmarAccion(this, '¿Reactivar Cita?')" class="p-2 text-indigo-400 hover:text-custom-primary transition bg-custom-light rounded-lg hover:bg-indigo-100" title="Reactivar"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg></button>
                         </form>
                     @endif
 
@@ -215,7 +215,7 @@
         @empty
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
                 <p class="text-gray-500 mb-6">No hay citas en esta vista.</p>
-                <a href="{{ route('citas.create') }}" class="inline-block bg-purple-100 text-purple-700 font-bold py-2 px-6 rounded-full hover:bg-purple-200 transition">
+                <a href="{{ route('citas.create') }}" class="inline-block bg-custom-light text-custom-primary font-bold py-2 px-6 rounded-full hover:bg-purple-200 transition">
                     + Programar Cita
                 </a>
             </div>
@@ -235,9 +235,9 @@
             <button onclick="document.getElementById('modalCopia').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">✕</button>
         </div>
         <p class="text-sm text-gray-500 mb-2">Copia este texto (Ctrl+C) y pégalo donde quieras:</p>
-        <textarea id="textoParaCopiar" class="w-full h-40 p-4 border border-gray-300 rounded-xl text-gray-800 text-sm focus:ring-purple-500 focus:border-purple-500 mb-4 bg-gray-50 font-mono" readonly></textarea>
+        <textarea id="textoParaCopiar" class="w-full h-40 p-4 border border-gray-300 rounded-xl text-gray-800 text-sm focus:ring-custom-primary/30 focus:border-custom-primary mb-4 bg-gray-50 font-mono" readonly></textarea>
         <div class="flex justify-end">
-            <button onclick="document.getElementById('modalCopia').classList.add('hidden')" class="bg-purple-600 text-white font-bold py-2 px-6 rounded-xl hover:bg-purple-700">Cerrar</button>
+            <button onclick="document.getElementById('modalCopia').classList.add('hidden')" class="bg-custom-primary text-white font-bold py-2 px-6 rounded-xl hover:brightness-110">Cerrar</button>
         </div>
     </div>
 </div>
@@ -255,7 +255,7 @@
         </div>
         <div class="mt-6 flex justify-center gap-3">
             <button onclick="document.getElementById('modalConfirmacion').classList.add('hidden')" type="button" class="bg-white text-gray-700 hover:bg-gray-50 font-bold py-2 px-4 rounded-xl border border-gray-300 shadow-sm transition">Cancelar</button>
-            <button onclick="ejecutarAccion()" type="button" class="bg-purple-600 text-white hover:bg-purple-700 font-bold py-2 px-4 rounded-xl shadow-lg transition">Sí, confirmar</button>
+            <button onclick="ejecutarAccion()" type="button" class="bg-custom-primary text-white hover:brightness-110 font-bold py-2 px-4 rounded-xl shadow-lg transition">Sí, confirmar</button>
         </div>
     </div>
 </div>

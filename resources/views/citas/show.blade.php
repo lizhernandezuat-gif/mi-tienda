@@ -10,7 +10,7 @@
                 <p class="text-gray-500 font-medium">Programada para el {{ $cita->fecha_hora_inicio->format('d \d\e F, Y') }}</p>
             </div>
             <div class="text-right">
-                <span class="block text-3xl font-black text-purple-600">{{ $cita->fecha_hora_inicio->format('H:i') }}</span>
+                <span class="block text-3xl font-black text-custom-primary">{{ $cita->fecha_hora_inicio->format('H:i') }}</span>
                 @if($cita->estado == 'pendiente')
                     <span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold mt-1">⏳ Pendiente</span>
                 @elseif($cita->estado == 'confirmada')
@@ -27,7 +27,8 @@
             <div>
                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Información del Cliente</h3>
                 <div class="flex items-start gap-4 mb-6">
-                    <div class="bg-purple-100 p-3 rounded-full text-purple-600">
+                    {{-- Cambiado bg-purple-100 por bg-custom-light --}}
+                    <div class="bg-custom-light p-3 rounded-full text-custom-primary">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     </div>
                     <div>
@@ -64,7 +65,7 @@
         </div>
 
         <div class="bg-gray-50 px-8 py-4 border-t border-gray-200 flex justify-end">
-            <a href="{{ route('citas.index') }}" class="text-gray-600 font-bold hover:text-gray-800 transition">← Volver</a>
+            <a href="{{ route('citas.index') }}" class="text-gray-600 font-bold hover:text-custom-primary transition">← Volver</a>
         </div>
     </div>
 </div>

@@ -19,4 +19,10 @@ class Veterinaria extends Model
         'horario',  // Nuevo
         'activo'
     ];
+
+    public function settings()
+{
+    // Una veterinaria tiene una (hasOne) configuración
+    return $this->hasOne(Setting::class);
+}
 }

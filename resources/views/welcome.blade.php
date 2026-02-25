@@ -24,18 +24,18 @@
             <div class="flex justify-between items-center h-20">
                 
                 <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-                    <div class="bg-gradient-to-br from-purple-600 to-pink-500 text-white p-2 rounded-lg shadow-lg">
+                    <div class="bg-gradient-to-br from-custom-primary to-pink-500 text-white p-2 rounded-lg shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                         </svg>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-gray-900">DogCat<span class="text-purple-600">SaaS</span></span>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">DogCat<span class="text-custom-primary">SaaS</span></span>
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#features" class="text-gray-500 hover:text-purple-600 font-medium transition">Funcionalidades</a>
-                    <a href="#demo" class="text-gray-500 hover:text-purple-600 font-medium transition">Demo</a>
-                    <a href="#precios" class="text-gray-500 hover:text-purple-600 font-medium transition">Precios</a>
+                    <a href="#features" class="text-gray-500 hover:text-custom-primary font-medium transition">Funcionalidades</a>
+                    <a href="#demo" class="text-gray-500 hover:text-custom-primary font-medium transition">Demo</a>
+                    <a href="#precios" class="text-gray-500 hover:text-custom-primary font-medium transition">Precios</a>
                 </div>
 
                 <div class="flex items-center space-x-4">
@@ -72,7 +72,7 @@
             </p>
 
             <div class="flex justify-center gap-4">
-                <a href="{{ route('veterinarias.setup') }}" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1 transition-all duration-300 text-lg">
+                <a href="{{ route('veterinarias.setup') }}" class="px-8 py-4 bg-gradient-to-r from-custom-primary to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1 transition-all duration-300 text-lg">
                      Empezar Ahora Gratis
                 </a>
                 <a href="#demo" class="px-8 py-4 bg-white text-gray-700 font-bold rounded-xl shadow-md border border-gray-200 hover:bg-gray-50 transition-all duration-300 text-lg flex items-center gap-2">
@@ -113,7 +113,7 @@
    <section id="features" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center mb-16">
-                <h2 class="text-base font-semibold leading-7 text-purple-600">Todo lo que necesitas</h2>
+                <h2 class="text-base font-semibold leading-7 text-custom-primary">Todo lo que necesitas</h2>
                 <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Deja de sufrir con Excel</p>
                 <p class="mt-6 text-lg leading-8 text-gray-600">DogCat SaaS está diseñado específicamente para veterinarias que quieren crecer, no solo sobrevivir.</p>
             </div>
@@ -123,7 +123,7 @@
                     
                     <div class="flex flex-col bg-gray-50 p-8 rounded-2xl transition-all hover:-translate-y-2 hover:shadow-lg border border-gray-100">
                         <dt class="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                            <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-purple-600">
+                            <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-custom-primary">
                                 <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
@@ -183,7 +183,7 @@
                 <img src="{{ asset('img/dashboard-demo.png') }}" alt="Demo Cover" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700">
                 
                 <div class="relative z-10 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8 text-purple-600 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg class="w-8 h-8 text-custom-primary ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 </div>
                 
                 <div class="absolute bottom-4 left-0 w-full text-center">
@@ -212,16 +212,16 @@
                             <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
                         </p>
                         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 50 Pacientes</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>1 Veterinario</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte por Email</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 50 Pacientes</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>1 Veterinario</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte por Email</li>
                         </ul>
                     </div>
-                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-purple-600 ring-1 ring-inset ring-purple-200 hover:ring-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 transition">Comenzar Gratis</a>
+                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-custom-primary ring-1 ring-inset ring-purple-200 hover:ring-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-custom-primary transition">Comenzar Gratis</a>
                 </div>
 
-                <div class="flex flex-col justify-between p-8 bg-white border-2 border-purple-600 rounded-3xl shadow-xl relative transform scale-105 z-10">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wide">Más Popular</div>
+                <div class="flex flex-col justify-between p-8 bg-white border-2 border-custom-primary rounded-3xl shadow-xl relative transform scale-105 z-10">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 bg-gradient-to-r from-pink-500 to-custom-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wide">Más Popular</div>
                     <div>
                         <h3 class="text-lg font-semibold leading-8 text-gray-900">Plan Clínica</h3>
                         <p class="mt-4 text-sm leading-6 text-gray-600">Para clínicas en crecimiento con flujo constante.</p>
@@ -230,13 +230,13 @@
                             <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
                         </p>
                         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Pacientes Ilimitados</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 3 Veterinarios</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Recordatorios por WhatsApp</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte Prioritario</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Pacientes Ilimitados</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Hasta 3 Veterinarios</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Recordatorios por WhatsApp</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Soporte Prioritario</li>
                         </ul>
                     </div>
-                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-white bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-500/30 transition">Probar 14 Días Gratis</a>
+                    <a href="{{ route('veterinarias.setup') }}" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-white bg-custom-primary hover:bg-purple-500 shadow-lg shadow-purple-500/30 transition">Probar 14 Días Gratis</a>
                 </div>
 
                 <div class="flex flex-col justify-between p-8 bg-white border border-gray-200 rounded-3xl hover:shadow-xl transition-shadow">
@@ -248,9 +248,9 @@
                             <span class="text-sm font-semibold leading-6 text-gray-600">/mes</span>
                         </p>
                         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600">
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Todo ilimitado</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>API personalizada</li>
-                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-purple-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Gerente de cuenta dedicado</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Todo ilimitado</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>API personalizada</li>
+                            <li class="flex gap-x-3"><svg class="h-6 w-5 flex-none text-custom-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>Gerente de cuenta dedicado</li>
                         </ul>
                     </div>
                     <a href="#" class="mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-gray-900 ring-1 ring-inset ring-gray-200 hover:ring-gray-300 transition">Contactar Ventas</a>
