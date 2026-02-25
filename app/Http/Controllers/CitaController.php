@@ -15,13 +15,17 @@ class CitaController extends Controller
     /**
      * Dashboard de citas con estadísticas y filtros (Próximas vs Historial)
      */
+    
+     /**
+     * Dashboard de citas con estadísticas, filtros de fechas y exportación a PDF/Excel
+     */
     public function index(Request $request)
     {
         $user = Auth::user();
-        $ahora = \Carbon\Carbon::now(); // Usamos \ para asegurar que lo encuentre
+        $ahora = \Carbon\Carbon::now(); 
         $hoy = \Carbon\Carbon::today();
 
-        // 🧠 LÓGICA INTELIGENTE: Auto-completar citas confirmadas que ya pasaron (15 min de gracia)
+        // 🧠 LÓGICA INTELIGENTE: Auto-completar citas confirmadas que ya pasaron
         \App\Models\Cita::where('user_id', $user->id)
             ->where('estado', 'confirmada')
             ->where('fecha_hora_inicio', '<', $ahora->subMinutes(15))
@@ -33,7 +37,7 @@ class CitaController extends Controller
                 $q->where('veterinaria_id', $user->veterinaria_id);
             });
 
-        // 🔍 LÓGICA DE BÚSQUEDA AVANZADA
+        // 🔍 LÓGICA DE BÚSQUEDA AVANZADA (Texto)
         if ($request->has('search') && $request->search != '') {
             $busqueda = $request->search;
             $query->where(function($q) use ($busqueda) {
@@ -48,21 +52,53 @@ class CitaController extends Controller
             });
         }
 
-        // 2. Filtro: ¿Historial o Próximas?
-        if ($request->has('ver') && $request->ver == 'historial') {
-            $query->where(function($q) use ($hoy) {
-                $q->whereDate('fecha_hora_inicio', '<', $hoy)
-                  ->orWhereIn('estado', ['cancelada', 'completada']);
-            })->orderBy('fecha_hora_inicio', 'desc');
-        } else {
-            $query->whereDate('fecha_hora_inicio', '>=', $hoy)
-                  ->whereIn('estado', ['pendiente', 'confirmada'])
-                  ->orderBy('fecha_hora_inicio', 'asc');
+        // 📅 NUEVO: LÓGICA DE FILTRO POR FECHAS (Desde - Hasta)
+        if ($request->has('fecha_inicio') && $request->fecha_inicio != '') {
+            $query->whereDate('fecha_hora_inicio', '>=', $request->fecha_inicio);
+        }
+        if ($request->has('fecha_fin') && $request->fecha_fin != '') {
+            $query->whereDate('fecha_hora_inicio', '<=', $request->fecha_fin);
         }
 
+        // 2. Filtro: ¿Historial o Próximas? (Solo aplica si NO se buscaron fechas específicas)
+        if (!$request->has('fecha_inicio') && !$request->has('fecha_fin')) {
+            if ($request->has('ver') && $request->ver == 'historial') {
+                $query->where(function($q) use ($hoy) {
+                    $q->whereDate('fecha_hora_inicio', '<', $hoy)
+                      ->orWhereIn('estado', ['cancelada', 'completada']);
+                })->orderBy('fecha_hora_inicio', 'desc');
+            } else {
+                $query->whereDate('fecha_hora_inicio', '>=', $hoy)
+                      ->whereIn('estado', ['pendiente', 'confirmada'])
+                      ->orderBy('fecha_hora_inicio', 'asc');
+            }
+        } else {
+            // Si el usuario filtró por fechas, ordenamos de la más antigua a la más nueva
+            $query->orderBy('fecha_hora_inicio', 'asc');
+        }
+
+        // 📥 NUEVO: LÓGICA DE EXPORTACIÓN (PDF / Excel)
+        if ($request->has('exportar')) {
+            $citasParaExportar = $query->get(); // Traemos todas las citas filtradas (sin paginación)
+            
+            if ($request->exportar == 'pdf') {
+                // Borramos el texto temporal y usamos la librería PDF
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.citas_pdf', compact('citasParaExportar'));
+                
+                // Retornamos la descarga del archivo
+                return $pdf->download('Reporte_Citas_Veterinaria.pdf');
+            }
+            
+            if ($request->exportar == 'excel') {
+                // Descarga el Excel usando nuestra nueva clase CitasExport
+                return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\CitasExport($citasParaExportar), 'Reporte_Citas_Veterinaria.xlsx');
+            }
+        }
+
+        // 3. Paginación normal para la vista web
         $citas = $query->paginate(15);
 
-        // 3. Estadísticas para el Dashboard de la Asistente
+        // 4. Estadísticas para el Dashboard
         $estadisticas = [
             'por_confirmar' => \App\Models\Cita::where('user_id', $user->id)
                 ->where('estado', 'pendiente')
@@ -78,8 +114,7 @@ class CitaController extends Controller
                 ->count(),
         ];
 
-        // IMPORTANTE: Este es el return que hace que la página NO salga en blanco
-         return view('citas.index', compact('citas', 'estadisticas'))->with('ahora', \Carbon\Carbon::now());
+        return view('citas.index', compact('citas', 'estadisticas'))->with('ahora', \Carbon\Carbon::now());
     }
     /**
      * Formulario de creación

@@ -96,7 +96,51 @@
             @endif
         </form>
     </div>
+    {{-- ========================================== --}}
+{{-- 1. PEGA ESTE PANEL DE FILTROS AQUÍ ARRIBA --}}
+{{-- ========================================== --}}
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-8">
+    <form action="{{ route('citas.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
+        
+        {{-- Contenedor de Fechas --}}
+        <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Desde la fecha</label>
+                <input type="date" name="fecha_inicio" value="{{ request('fecha_inicio') }}" 
+                       class="w-full rounded-2xl border-2 border-gray-200 focus:border-custom-primary focus:ring-0 transition-all p-3 outline-none text-gray-900 bg-white">
+            </div>
+            <div>
+                <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Hasta la fecha</label>
+                <input type="date" name="fecha_fin" value="{{ request('fecha_fin') }}" 
+                       class="w-full rounded-2xl border-2 border-gray-200 focus:border-custom-primary focus:ring-0 transition-all p-3 outline-none text-gray-900 bg-white">
+            </div>
+        </div>
 
+        {{-- Botones de Acción --}}
+        <div class="flex flex-wrap gap-2 md:w-auto w-full">
+            
+            {{-- NUEVO: Botón Limpiar --}}
+            <a href="{{ route('citas.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-black py-3 px-4 rounded-2xl shadow-sm transition transform hover:-translate-y-1 active:scale-95 flex items-center gap-2 border border-gray-300">
+                ✖ Limpiar
+            </a>
+
+            {{-- Botón Filtrar --}}
+            <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-black py-3 px-6 rounded-2xl shadow-md transition transform hover:-translate-y-1 active:scale-95 flex items-center gap-2">
+                🔍 Filtrar
+            </button>
+            
+            {{-- Botón PDF --}}
+            <button type="submit" name="exportar" value="pdf" class="bg-red-500 hover:bg-red-600 text-white font-black py-3 px-4 rounded-2xl shadow-md transition transform hover:-translate-y-1 active:scale-95 flex items-center gap-2" title="Descargar PDF">
+                📄 PDF
+            </button>
+            
+            {{-- Botón Excel --}}
+            <button type="submit" name="exportar" value="excel" class="bg-green-500 hover:bg-green-600 text-white font-black py-3 px-4 rounded-2xl shadow-md transition transform hover:-translate-y-1 active:scale-95 flex items-center gap-2" title="Descargar Excel">
+                📊 Excel
+            </button>
+        </div>
+    </form>
+</div>
     <div class="space-y-4 mb-12">
         @forelse($citas as $cita)
             <div class="bg-white rounded-2xl shadow-sm border p-6 flex flex-col md:flex-row justify-between items-center hover:shadow-md transition duration-200 group relative overflow-hidden
